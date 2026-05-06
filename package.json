@@ -15,7 +15,7 @@
     "start": "node server/server.js",
     "dev:server": "node server/server.js",
     "dev:client": "vite",
-    "dev": "node dev.js"
+    "dev": "vite"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",

@@ -9,12 +9,17 @@ console.log('Starting Team Task Manager (dev mode)...\n');
 const serverProcess = spawn('node', ['server/server.js'], {
   stdio: 'inherit',
   cwd: __dirname,
+  env: {
+    ...process.env,
+    NODE_ENV: 'development',
+  },
 });
 
 // Give server time to start before starting frontend
 setTimeout(() => {
-  // Start frontend dev server
-  const clientProcess = spawn('vite', [], {
+  console.log('\nStarting frontend dev server...\n');
+  // Start frontend dev server using npx
+  const clientProcess = spawn('npx', ['vite'], {
     stdio: 'inherit',
     cwd: __dirname,
   });
@@ -26,7 +31,13 @@ setTimeout(() => {
     clientProcess.kill();
     process.exit(0);
   });
-}, 2000);
+
+  clientProcess.on('error', (err) => {
+    console.error('Failed to start frontend:', err);
+    serverProcess.kill();
+    process.exit(1);
+  });
+}, 3000);
 
 // Handle server errors
 serverProcess.on('error', (err) => {
