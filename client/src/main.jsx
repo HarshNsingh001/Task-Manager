@@ -1,3 +1,6 @@
+// Ready
+// App ready
+// Team Task Manager App
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -6,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProjectsProvider } from './context/ProjectsContext';
 import './index.css';
 
+// App initialization
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
