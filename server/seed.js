@@ -2,23 +2,31 @@ const User = require('./models/User');
 const Project = require('./models/Project');
 const Task = require('./models/Task');
 const Category = require('./models/Category');
+const bcrypt = require('bcryptjs');
 
 const seedDemoData = async () => {
-  const userCount = await User.countDocuments();
-  if (userCount > 0) return;
+  // In development, always clear and reseed
+  await User.deleteMany({});
+  await Project.deleteMany({});
+  await Task.deleteMany({});
+  await Category.deleteMany({});
 
   console.log('Seeding demo data...');
+
+  // Hash passwords before creating users
+  const adminPassword = await bcrypt.hash('demo1234', 12);
+  const memberPassword = await bcrypt.hash('demo1234', 12);
 
   const admin = await User.create({
     name: 'Alex Morgan',
     email: 'admin@demo.com',
-    password: 'demo1234',
+    password: adminPassword,
   });
 
   const member = await User.create({
     name: 'Jordan Lee',
     email: 'member@demo.com',
-    password: 'demo1234',
+    password: memberPassword,
   });
 
   const project = await Project.create({

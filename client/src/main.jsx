@@ -6,7 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProjectsProvider } from './context/ProjectsContext';
 import './index.css';
 
-// Initialize Team Task Manager
+// App initialization
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>

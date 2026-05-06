@@ -13,7 +13,7 @@ export default defineConfig({
       configResolved() {
         // Start backend server once during dev server startup
         if (!backendProcess) {
-          console.log('\n[v0] Starting Express backend server...\n');
+          console.log('\n[v0] Starting backend server for Task Manager...\n');
           backendProcess = spawn('node', ['server/server.js'], {
             stdio: 'inherit',
             cwd: process.cwd(),
