@@ -2,7 +2,7 @@
   "name": "team-task-manager",
   "version": "1.0.0",
   "private": true,
-  "description": "A focused workspace for teams to plan projects, assign tasks, and track progress together.",
+  "description": "A focused workspace for teams to plan projects, assign tasks, and track progress with role-based access control.",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -15,11 +15,10 @@
     "start": "node server/server.js",
     "dev:server": "node server/server.js",
     "dev:client": "vite",
-    "dev": "vite"
+    "dev": "node dev.js"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.4",
-    "concurrently": "^9.1.2",
     "vite": "^6.1.0"
   },
   "dependencies": {
