@@ -13,7 +13,7 @@ export default defineConfig({
       configResolved() {
         // Start backend server once during dev server startup
         if (!backendProcess) {
-          console.log('\n[v0] Starting Express backend server on port 5000...\n');
+          console.log('\n[v0] Starting Express backend server...\n');
           backendProcess = spawn('node', ['server/server.js'], {
             stdio: 'inherit',
             cwd: process.cwd(),
