@@ -47,21 +47,16 @@ exports.login = async (req, res, next) => {
     }
 
     const { email, password } = req.body;
-    console.log('[v0] Login attempt:', email);
 
     const user = await User.findOne({ email }).select('+password');
-    console.log('[v0] User found:', !!user);
     
     if (!user) {
-      console.log('[v0] User not found in DB for email:', email);
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
     const isMatch = await user.matchPassword(password);
-    console.log('[v0] Password match:', isMatch);
     
     if (!isMatch) {
-      console.log('[v0] Password does not match for:', email);
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
     }
 
@@ -77,7 +72,6 @@ exports.login = async (req, res, next) => {
       },
     });
   } catch (err) {
-    console.error('[v0] Login error:', err.message, err);
     next(err);
   }
 };

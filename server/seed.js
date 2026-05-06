@@ -12,27 +12,25 @@ const seedDemoData = async () => {
     await Task.deleteMany({});
     await Category.deleteMany({});
 
-    console.log('[v0] Starting demo data seed...');
+    console.log('Seeding demo data...');
 
     // Hash passwords before creating users
     const adminPassword = await bcrypt.hash('demo1234', 12);
     const memberPassword = await bcrypt.hash('demo1234', 12);
 
-    console.log('[v0] Creating admin user...');
+    // Create admin user
     const admin = await User.create({
       name: 'Alex Morgan',
       email: 'admin@demo.com',
       password: adminPassword,
     });
-    console.log('[v0] Admin created:', admin.email);
 
-    console.log('[v0] Creating member user...');
+    // Create member user
     const member = await User.create({
       name: 'Jordan Lee',
       email: 'member@demo.com',
       password: memberPassword,
     });
-    console.log('[v0] Member created:', member.email);
 
     const project = await Project.create({
       name: 'Marketing Launch Q1',
@@ -122,11 +120,11 @@ const seedDemoData = async () => {
       },
     ]);
 
-    console.log('[v0] Demo data seeded successfully!');
-    console.log('  Admin:  admin@demo.com  / demo1234');
+    console.log('Demo data seeded successfully!');
+    console.log('  Admin:  admin@demo.com / demo1234');
     console.log('  Member: member@demo.com / demo1234');
   } catch (error) {
-    console.error('[v0] Seed error:', error);
+    console.error('Seed error:', error);
     throw error;
   }
 };
