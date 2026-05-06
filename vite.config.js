@@ -1,45 +1,30 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { spawn } from 'child_process';
+import { createRequire } from 'module';
 
-let backendProcess;
+const require = createRequire(import.meta.url);
 
 export default defineConfig({
   plugins: [
     react(),
     {
-      name: 'start-backend',
+      name: 'mount-express-backend',
       apply: 'serve',
-      configResolved() {
-        // Kill any existing backend process
-        if (backendProcess) {
-          backendProcess.kill();
-          backendProcess = null;
+      async configureServer(server) {
+        // Load the Express app from the server folder
+        const { app, initBackend } = require('./server/app');
+
+        // Initialize backend (DB connection + seed) before handling requests
+        try {
+          await initBackend();
+          console.log('[vite] Express backend mounted successfully');
+        } catch (err) {
+          console.error('[vite] Failed to initialize backend:', err);
         }
-        
-        console.log('\n[v0] Backend ready.\n');
-        backendProcess = spawn('node', ['server/server.js'], {
-          stdio: 'inherit',
-          cwd: process.cwd(),
-          env: {
-            ...process.env,
-            NODE_ENV: 'development',
-            SEED_DEMO: 'true',
-          },
-        });
 
-        backendProcess.on('error', (err) => {
-          console.error('[v0] Backend process error:', err);
-        });
-
-        backendProcess.on('exit', (code) => {
-          console.log('[v0] Backend process exited with code:', code);
-          backendProcess = null;
-        });
-
-        setTimeout(() => {
-          console.log('[v0] Backend server initialized\n');
-        }, 2000);
+        // Mount the Express app as middleware in the Vite dev server
+        // This way /api/* requests go directly to Express, no proxy needed
+        server.middlewares.use(app);
       },
     },
   ],
@@ -50,12 +35,5 @@ export default defineConfig({
   server: {
     port: 3000,
     host: '0.0.0.0',
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-        ws: true,
-      },
-    },
   },
 });
