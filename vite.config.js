@@ -13,7 +13,7 @@ export default defineConfig({
       configResolved() {
         // Start backend server once during dev server startup
         if (!backendProcess) {
-          console.log('\n[v0] MongoDB Atlas connection starting...\n');
+          console.log('\n[v0] Backend initializing with fallback support...\n');
           backendProcess = spawn('node', ['server/server.js'], {
             stdio: 'inherit',
             cwd: process.cwd(),
